@@ -5,15 +5,12 @@ from pprint import pprint
 
 
 config = {
-	"apiKey": "AIzaSyAglITviKSqyNKQYDc3nhZRgT3idcyoQa4",
-    "authDomain": "news-aggregator-e71a5.firebaseapp.com",
-    "databaseURL": "https://news-aggregator-e71a5.firebaseio.com",
-    # "projectId": "news-aggregator-e71a5",
-    "storageBucket": "news-aggregator-e71a5.appspot.com",
-    "serviceAccount": "news-aggregator-e71a5-firebase-adminsdk-1txak-bb3a09d80b.json"
-
-    # messagingSenderId: "876871468874"
- }
+	"apiKey": "AIzaSyAZcr4Y7dS97h_ZJ1aCyl2JEUyRecYkhEM",
+    "authDomain": "newsnowtest.firebaseapp.com",
+    "databaseURL": "https://newsnowtest.firebaseio.com",
+    "storageBucket": "newsnowtest.appspot.com",
+    "serviceAccount": "newsnowtest-firebase-adminsdk-r2185-e476e5c430.json"
+}
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
@@ -38,8 +35,28 @@ usaTodayID = "usa-today"
 
 sources = [associatedPressID, bbcNewsID, bloombergID, businessInsiderID, cnbcID, newsweekID, reutersID, huffingtonPostID, newYorkTimesID, wallStreetJournalID, washingtonPostID, timeID, usaTodayID]
 
+# Writing to Articles
 for source in sources:
 	data = requests.get("https://newsapi.org/v1/articles?source=" + source + "&sortBy=top&apiKey=" + newsAPIKey)
-	db.child("news").child(source).set(data.json())
+	articles = data.json()['articles']
+	for a in articles:
+		db.child("articles").push(a)
 
+# Add allSources
+# sources: list of Strings
+def addAllSources(sources):
+	db.child("allSources").set(sources)
 
+# Add allTopics
+# topics: list of Strings
+def addAllTopics(topics):
+	db.child("allTopics").set(topics)
+
+# Clear All Articles
+def clearAllArticles():
+	db.child("articles").remove()
+
+# Write an Article
+# dictionary: dictionary of article data
+def writeAnArticle(dictionary):
+	db.child("articles").push(dictionary)
