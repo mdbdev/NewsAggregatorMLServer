@@ -13,12 +13,9 @@ def calc_similarity_scores(strings):
     tfidf = vect.fit_transform(strings)
     pairwise_scores = (tfidf * tfidf.T).A
     # Convert pairwise scores into 1 score for each string
-    scores = []
-    for vec in pairwise_scores:
-        result.append(np.linalg.norm(vec))
     # Normalize scores
-    scores_array = np.array(result)
-    return scores_array / np.linalg.norm(scores_array)
+    scores = np.array([np.linalg.norm(vec) for vec in pairwise_scores])
+    return scores / np.linalg.norm(scores)
 
 def calc_popularity(scores):
     """Returns an array of integer popularities [1, 10] based on percentile
