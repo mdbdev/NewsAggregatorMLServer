@@ -15,48 +15,21 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-# https://newsapi.org/ News API key
-newsAPIKey = "0054e75e6de34f2289c02f5520bddea5"
-
-# News sources IDs
-associatedPressID = "associated-press"
-bbcNewsID = "bbc-news"
-bloombergID = "bloomberg"
-businessInsiderID = "business-insider"
-cnbcID = "cnbc"
-newsweekID = "newsweek"
-reutersID = "reuters"
-huffingtonPostID = "the-huffington-post"
-newYorkTimesID = "the-new-york-times"
-wallStreetJournalID = "the-wall-street-journal"
-washingtonPostID = "the-washington-post"
-timeID = "time"
-usaTodayID = "usa-today"
-
-sources = [associatedPressID, bbcNewsID, bloombergID, businessInsiderID, cnbcID, newsweekID, reutersID, huffingtonPostID, newYorkTimesID, wallStreetJournalID, washingtonPostID, timeID, usaTodayID]
-
-# Writing to Articles
-for source in sources:
-	data = requests.get("https://newsapi.org/v1/articles?source=" + source + "&sortBy=top&apiKey=" + newsAPIKey)
-	articles = data.json()['articles']
-	for a in articles:
-		db.child("articles").push(a)
-
-# Add allSources
+# Add all sources
 # sources: list of Strings
-def addAllSources(sources):
+def setSources(sources):
 	db.child("allSources").set(sources)
 
-# Add allTopics
+# Add all topics
 # topics: list of Strings
-def addAllTopics(topics):
+def setTopics(topics):
 	db.child("allTopics").set(topics)
 
-# Clear All Articles
+# Clear all articles
 def clearAllArticles():
 	db.child("articles").remove()
 
-# Write an Article
+# Write an article
 # dictionary: dictionary of article data
-def writeAnArticle(dictionary):
+def addArticle(dictionary):
 	db.child("articles").push(dictionary)
