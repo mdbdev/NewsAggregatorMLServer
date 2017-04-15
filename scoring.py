@@ -2,7 +2,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
 def calc_similarity_scores(strings):
-    """Returns a normalized vector of similarity scores corresponding to the strings.
+    """Returns an l2 normalized vector of similarity scores corresponding to the
+    strings.
 
     :param list strings: The collection of strings for which the function
     computes similarity scores.
@@ -20,7 +21,11 @@ def calc_similarity_scores(strings):
     return scores_array / np.linalg.norm(scores_array)
 
 def calc_popularity(scores):
-    """Returns an array popularity [1, 10] based on percentile w.r.t other scores.
+    """Returns an array of integer popularities [1, 10] based on percentile
+    w.r.t other scores.
+
+    :param list float: The collection of scores for which the function computes
+    popularity
     """
     quantiles = [10*i for i in range(1,10)]
     percentiles = np.percentile(scores, quantiles)
