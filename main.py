@@ -18,7 +18,7 @@ scores = np.sqrt(np.square(title_scores) + np.square(description_scores))
 popularities = scoring.calc_popularity(scores)
 
 for popularity, article in zip(popularities, articles):
-    article["popularity"] = popularity
+    article["popularity"] = int(popularity)
 
 # Clear the database of old articles
 # TODO: make this more elegant -- this briefly stop service

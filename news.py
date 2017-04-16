@@ -21,7 +21,9 @@ def get_article_data(sources=supported_sources):
         if response.ok:
             try:
                 data = json.loads(response.text)
-                articles.extend(data["articles"])
+                for article in data["articles"]:
+                    article["source"] = source
+                    articles.append(article)
             except json.JSONDecodeError as e:
                 # TODO: handle response with invalid JSON encoding
                 pass

@@ -30,6 +30,9 @@ def clearAllArticles():
 	db.child("articles").remove()
 
 # Write an article
-# dictionary: dictionary of article data
-def addArticle(dictionary):
-	db.child("articles").push(dictionary)
+# article: dictionary of article data
+def addArticle(article):
+	try:
+		db.child("articles").push(article)
+	except TypeError as e:
+		print(e, type(article))
