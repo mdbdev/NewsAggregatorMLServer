@@ -16,9 +16,10 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
 # Add all sources
-# sources: list of Strings
+# sources: list of JSON objects
 def setSources(sources):
-	db.child("allSources").set(sources)
+	for src in sources:
+		db.child("sources/" + src["id"]).set(src)
 
 # Add all topics
 # topics: list of Strings

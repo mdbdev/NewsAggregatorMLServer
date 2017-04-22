@@ -3,8 +3,11 @@ import scoring
 import database
 import numpy as np
 
+sources = news.get_sources("en")
+database.setSources(sources)
 
-articles = news.get_article_data()
+source_ids = [src["id"] for src in sources]
+articles = news.get_article_data(source_ids)
 
 titles = [article["title"] if article["title"] else "" for article in articles]
 descriptions = [article["description"] if article["description"] else ""
